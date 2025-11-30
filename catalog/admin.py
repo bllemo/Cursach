@@ -26,7 +26,7 @@ class BookAdmin(admin.ModelAdmin):
 
     def display_genre(self, obj):
         return ', '.join(genre.name for genre in obj.genre.all()[:3])
-    display_genre.short_description = 'Жанры'
+    display_genre.short_description = 'genre'
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
