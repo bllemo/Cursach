@@ -16,4 +16,5 @@
     <li><strong>Number of genres:</strong> {{ num_genres }}</li>
     <li><strong>Number of books with the word "{{ search_word }}" in the title:</strong> {{ num_books_with_word }}</li>
   </ul>
+    <p>You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}.</p>
 {% endblock %}
