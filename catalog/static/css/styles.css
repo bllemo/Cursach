@@ -1,15 +1,5 @@
 .sidebar-nav {
-  margin-top: 5px;
-  padding: 20px;
-  margin-left: -35px;
-  margin-right: 50px;
+  margin-top: 20px;
+  padding: 0;
   list-style: none;
-}
-
-.sidebar-nav li {
-  padding: 2px;
-}
-
-.container{
-  display: flex;
 }

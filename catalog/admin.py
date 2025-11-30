@@ -1,6 +1,13 @@
 from django.contrib import admin
 from .models import Author, Genre, Book, BookInstance
 
+class BooksInstanceInline(admin.TabularInline):
+    model = BookInstance
+    extra = 0
+
+class BooksInline(admin.TabularInline):
+    model = Book
+    extra = 0
 
 @admin.register(Genre)
 class GenreAdmin(admin.ModelAdmin):
@@ -10,10 +17,16 @@ class GenreAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
     fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
+    inlines = [BooksInline]
 
-class BooksInstanceInline(admin.TabularInline):
-    model = BookInstance
-    extra = 0
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'language', 'display_genre')
+    inlines = [BooksInstanceInline]
+
+    def display_genre(self, obj):
+        return ', '.join(genre.name for genre in obj.genre.all()[:3])
+    display_genre.short_description = 'Жанры'
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
@@ -28,13 +41,3 @@ class BookInstanceAdmin(admin.ModelAdmin):
         }),
     )
 
-@admin.register(Book)
-class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'display_genre')
-    inlines = [BooksInstanceInline]
-
-    def display_genre(self, obj):
-
-        return ', '.join(genre.name for genre in obj.genre.all()[:3])
-
-    display_genre.short_description = 'Жанры'
