@@ -24,6 +24,9 @@
    <li style="margin-top: 20px">User: {{ user.get_username }}</li>
 
    <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+    {% if perms.catalog.can_mark_returned %}
+      <li><a href="{% url 'all-borrowed' %}">All Borrowed</a></li>
+    {% endif %}
 
    <li>
      <form id="logout-form" method="post" action="{% url 'admin:logout' %}">

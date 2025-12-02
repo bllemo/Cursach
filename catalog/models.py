@@ -51,6 +51,15 @@ class BookInstance(models.Model):
     due_back = models.DateField(null=True, blank=True)
     borrower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
+    class Meta:
+        permissions = (
+            ("can_mark_returned", "Set book as returned"),
+        )
+
+    @property
+    def is_overdue(self):
+        return bool(self.due_back and date.today() > self.due_back)
+
     LOAN_STATUS = (
         ('m', 'Maintenance'),
         ('o', 'On loan'),
@@ -91,9 +100,5 @@ class Author(models.Model):
 
     display_genre.short_description = 'Genre'
 
-@property
-def is_overdue(self):
-    """Determines if the book is overdue based on due date and current date."""
-    return bool(self.due_back and date.today() > self.due_back)
 
 
